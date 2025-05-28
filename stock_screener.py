@@ -5,12 +5,36 @@
 
 import csv
 import pandas as pd
-from pandas import read_csv
+import os
 import numpy as np
 
+print ("This is a stock screener")
+while True:
+    file_name = input("Enter file name (include .csv)(Type Exit to quit): ")
+    if file_name.lower() == "exit":
+        exit()
+    elif not os.path.isfile(file_name):
+        print("File not found.")
+    elif not file_name.endswith(".csv"):
+        print("This is not a CSV file.")
+    else:
+        break
 
-#importing csv and applying pd to create df
-stocks = pd.read_csv('stocks_clean.csv')
+stocks = pd.read_csv(file_name)
+
+def options():
+    print ("Choose which stock do you want to evaluate")
+    for stock in stocks.loc[:,"Stock"]:
+        print (stock)
+options()
+
+while True:
+    stock = input("Enter stock code: ")
+    stock = stock.upper()
+    if stock in stocks.values:
+        break
+    else:
+        print ("stock not found")
 
 #calculating all values
 stocks ["PE Ratio"] = stocks["Price"] / stocks["EPS"]
@@ -70,4 +94,14 @@ stocks ["Score"] += np.select(DE_conditions, DE_scores)
 
 stocks ["Final Score"] = stocks ["Score"] / 3
 
-print (stocks)
+score = stocks.loc[stocks["Stock"] == stock, "Final Score"].values[0]
+print(f"The Final Score for {stock} is: {score}")
+
+if score > 75:
+    print ("The stock score is very good")
+elif score > 50:
+    print ("The stock is good")
+elif score > 25:
+    print ("The stock is bad")
+else:
+    print ("The stock is very bad")
