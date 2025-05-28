@@ -1,3 +1,8 @@
+# Copyright (c) 2025 Jaidev Bathineni 
+# All rights reserved.
+# This source code is for personal use only. Unauthorized copying,
+# modification, or distribution is prohibited.
+
 import csv
 import pandas as pd
 from pandas import read_csv
